@@ -15,7 +15,7 @@ A modern UI interface for interacting with Mantle Network's DeFi protocols throu
 
 ## ✨ Overview
 
-The Mantle MPC Server serves as a bridge between AI workspaces and Mantle Network's DeFi ecosystem. It enables users to query real-time data about token prices, total value locked (TVL), and protocol-specific metrics directly from their AI workspaces like Cursor, Claude, and T3Chat.
+This third-party MPC Server serves as a bridge between AI workspaces and Mantle Network's DeFi ecosystem. It enables users to query real-time data about token prices, total value locked (TVL), and protocol-specific metrics directly from their AI workspaces like Cursor, Claude, and T3Chat.
 
 With a sleek glassmorphic UI design, the server provides an intuitive interface for visualizing and interacting with onchain data, making it easier to analyze DeFi trends and make informed decisions.
 
@@ -259,5 +259,5 @@ For questions, suggestions, or collaboration opportunities, please open an issue
 ---
 
 <div align="center">
-  <p>Built with ❤️ for the Mantle ecosystem</p>
+  <p>An independent project for the Mantle ecosystem</p>
 </div>
