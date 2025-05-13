@@ -3,58 +3,81 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Onchain Mantle MPC</title>
+    <title>Mantle Network MPC</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap"
       rel="stylesheet"
     />
     <style>
+      :root {
+        --primary: #3B82F6;
+        --secondary: #9333EA;
+        --accent: #EC4899;
+        --dark: #0F172A;
+        --darker: #060B18;
+      }
+      
       body {
         font-family: "Space Grotesk", sans-serif;
-        background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+        background: linear-gradient(135deg, var(--darker), var(--dark));
         min-height: 100vh;
         position: relative;
         overflow-x: hidden;
+        color: #fff;
       }
 
-      /* Enhanced glass effect */
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        padding: 1rem 2rem;
+        backdrop-filter: blur(10px);
+        background: rgba(15, 23, 42, 0.7);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      /* Glass effect */
       .glass {
-        background: rgba(26, 26, 26, 0.4);
+        background: rgba(15, 23, 42, 0.5);
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        transition: all 0.4s ease;
       }
       
       .glass:hover {
-        background: rgba(26, 26, 26, 0.5);
-        border-color: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
+        background: rgba(15, 23, 42, 0.6);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-4px);
       }
 
-      /* Improved protocol card styling */
-      .protocol-card {
-        background: rgba(26, 26, 26, 0.4);
+      /* Card styling */
+      .card {
+        background: rgba(15, 23, 42, 0.4);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
         transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        overflow: hidden;
       }
       
-      .protocol-card:hover {
-        transform: translateY(-4px) scale(1.02);
-        background: rgba(38, 38, 38, 0.6);
+      .card:hover {
+        transform: translateY(-4px);
+        background: rgba(15, 23, 42, 0.6);
         border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
       }
 
-      /* Enhanced gradient border */
       .gradient-border {
         position: relative;
         border-radius: 1rem;
         background: linear-gradient(
           45deg,
-          rgba(59, 130, 246, 0.5),
-          rgba(147, 51, 234, 0.5)
+          var(--primary),
+          var(--secondary)
         );
         padding: 1px;
         transition: all 0.3s ease;
@@ -64,58 +87,34 @@
         transform: scale(1.01);
         background: linear-gradient(
           45deg,
-          rgba(59, 130, 246, 0.7),
-          rgba(147, 51, 234, 0.7)
+          var(--primary),
+          var(--accent)
         );
       }
 
-      .gradient-border::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: 1rem;
-        padding: 1px;
-        background: linear-gradient(
-          45deg,
-          rgba(59, 130, 246, 0.3),
-          rgba(147, 51, 234, 0.3)
-        );
-        -webkit-mask: linear-gradient(#fff 0 0) content-box,
-          linear-gradient(#fff 0 0);
-        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-      }
-
-      /* Animated background elements */
+      /* Animated background */
       .bg-blur {
         position: absolute;
         border-radius: 50%;
-        filter: blur(80px);
-        opacity: 0.4;
-        animation: float 8s ease-in-out infinite;
+        filter: blur(100px);
+        opacity: 0.3;
+        z-index: -1;
+        animation: float 20s ease-in-out infinite;
       }
 
       @keyframes float {
         0%, 100% {
-          transform: translateY(0) scale(1);
+          transform: translate(0, 0) scale(1);
+        }
+        25% {
+          transform: translate(50px, -30px) scale(1.1);
         }
         50% {
-          transform: translateY(-20px) scale(1.05);
+          transform: translate(0, 20px) scale(0.9);
         }
-      }
-
-      /* Enhanced code block styling */
-      .code-block {
-        background: rgba(10, 10, 10, 0.8);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease;
-      }
-      
-      .code-block:hover {
-        border-color: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
+        75% {
+          transform: translate(-50px, -20px) scale(1.05);
+        }
       }
 
       /* Pulse animation for live indicator */
@@ -133,47 +132,204 @@
           transform: scale(0.9);
         }
       }
+
+      /* Github card */
+      .github-card {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.5s ease;
+      }
+
+      .github-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+        opacity: 0;
+        transform: translate(-100%, -100%) rotate(0deg);
+        transition: all 0.8s ease;
+      }
+
+      .github-card:hover::before {
+        opacity: 1;
+        transform: translate(0, 0) rotate(45deg);
+      }
+
+      /* Enhanced code block */
+      .code-block {
+        background: rgba(6, 11, 24, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+      
+      .code-block:hover {
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+      }
+
+      /* Animation for stat counters */
+      .counter-anim {
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards;
+        animation-delay: calc(var(--delay) * 0.2s);
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Star animation */
+      .star-animation {
+        animation: star-pulse 3s ease infinite;
+      }
+
+      @keyframes star-pulse {
+        0%, 100% {
+          transform: scale(1);
+          color: #FCD34D;
+        }
+        50% {
+          transform: scale(1.2);
+          color: #F59E0B;
+        }
+      }
+
+      /* Fork animation */
+      .fork-animation {
+        animation: fork-wave 3s ease infinite;
+      }
+
+      @keyframes fork-wave {
+        0%, 100% {
+          transform: rotate(0deg);
+        }
+        25% {
+          transform: rotate(-15deg);
+        }
+        75% {
+          transform: rotate(15deg);
+        }
+      }
     </style>
   </head>
-  <body class="text-white flex items-center justify-center p-8">
-    <div class="max-w-6xl w-full mx-auto relative">
-      <!-- Enhanced decorative elements -->
-      <div class="bg-blur -top-40 -left-40 w-96 h-96 bg-blue-500/20"></div>
-      <div class="bg-blur -bottom-40 -right-40 w-96 h-96 bg-purple-500/20"></div>
-      <div class="bg-blur top-1/2 left-1/2 w-64 h-64 bg-emerald-500/10"></div>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+          <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </div>
+        <span class="font-bold text-xl">Mantle MPC</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="https://www.mantle.xyz/" target="_blank" class="text-sm text-gray-300 hover:text-white transition-colors">Mantle Network</a>
+        <a href="https://defillama.com/chain/Mantle" target="_blank" class="text-sm text-gray-300 hover:text-white transition-colors">DeFi Metrics</a>
+        <a href="https://github.com/OkeyAmy/mantle-mcp" target="_blank" class="text-sm bg-gradient-to-r from-blue-500 to-purple-500 px-4 py-2 rounded-full font-medium hover:opacity-90 transition-opacity">GitHub Repo</a>
+      </div>
+    </nav>
 
-      <div class="text-center mb-16 relative">
+    <!-- Main content -->
+    <div class="container mx-auto px-4 pt-28 pb-20">
+      <!-- Background elements -->
+      <div class="bg-blur w-[500px] h-[500px] top-0 left-0 bg-blue-600/20"></div>
+      <div class="bg-blur w-[600px] h-[600px] bottom-0 right-0 bg-purple-600/20"></div>
+      <div class="bg-blur w-[400px] h-[400px] top-1/3 right-1/4 bg-pink-600/10"></div>
+
+      <!-- Hero section -->
+      <div class="max-w-4xl mx-auto text-center mb-20">
         <div class="inline-flex items-center gap-2 mb-4 glass px-4 py-2 rounded-full">
           <div class="w-2 h-2 bg-green-400 rounded-full live-pulse"></div>
           <span class="text-sm font-medium text-gray-300">Live on Mantle Network</span>
         </div>
 
-        <h1 class="text-7xl font-bold mb-6 tracking-tight">
+        <h1 class="text-6xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
           Onchain
-          <span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent animate-gradient">
+          <span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             MANTLE
           </span>
-          MPC SERVER
+          MPC
         </h1>
 
         <p class="text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed">
-          Connect this mpc server to cursor, claude, t3chat or your preferred ai
-          workspace to discuss your DeFi strategies with real-time data from
+          Connect this MPC server to your AI workspace to discuss DeFi strategies with real-time data from
           Mantle's leading protocols.
         </p>
       </div>
 
+      <!-- GitHub Repository Section -->
+      <div class="glass rounded-3xl p-8 mb-16 github-card">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+          <div class="flex items-center gap-4">
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-gray-800 to-gray-700 flex items-center justify-center">
+              <i class="fab fa-github text-3xl"></i>
+            </div>
+            <div>
+              <h2 class="text-2xl font-bold">GitHub Repository</h2>
+              <p class="text-gray-400">Official Mantle MPC implementation</p>
+            </div>
+          </div>
+          <a 
+            href="https://github.com/OkeyAmy/mantle-mcp.git" 
+            target="_blank" 
+            class="flex items-center gap-2 bg-gray-800 hover:bg-gray-700 transition-colors px-5 py-3 rounded-lg"
+          >
+            <i class="fas fa-code-branch"></i>
+            <span>Clone Repository</span>
+          </a>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="card p-6 rounded-xl flex flex-col items-center justify-center text-center">
+            <i class="fab fa-git-alt text-2xl mb-3 text-blue-400"></i>
+            <h3 class="text-lg font-semibold">Version Control</h3>
+            <p class="text-gray-400 text-sm mt-2">Git-based source tracking</p>
+          </div>
+          
+          <div class="card p-6 rounded-xl flex flex-col items-center justify-center text-center">
+            <i class="fas fa-code text-2xl mb-3 text-purple-400"></i>
+            <h3 class="text-lg font-semibold">TypeScript</h3>
+            <p class="text-gray-400 text-sm mt-2">Type-safe development</p>
+          </div>
+          
+          <div class="card p-6 rounded-xl flex flex-col items-center justify-center text-center">
+            <i class="fas fa-server text-2xl mb-3 text-green-400"></i>
+            <h3 class="text-lg font-semibold">Vercel Deployment</h3>
+            <p class="text-gray-400 text-sm mt-2">Serverless architecture</p>
+          </div>
+          
+          <div class="card p-6 rounded-xl flex flex-col items-center justify-center text-center">
+            <i class="fas fa-plug text-2xl mb-3 text-pink-400"></i>
+            <h3 class="text-lg font-semibold">API Integration</h3>
+            <p class="text-gray-400 text-sm mt-2">Connect to AI workspaces</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Protocol section -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
         <div class="glass rounded-3xl p-8 relative overflow-hidden group">
           <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 transition-opacity group-hover:opacity-75"></div>
-          <h2 class="text-2xl font-semibold mb-8 relative">Supported Protocols</h2>
+          <h2 class="text-2xl font-bold mb-8 relative">Supported Protocols</h2>
           <div class="space-y-6 relative">
             <div class="gradient-border">
               <a
                 href="https://defillama.com/protocol/treehouse-protocol"
                 target="_blank"
                 rel="noopener"
-                class="protocol-card block p-6 rounded-2xl group relative overflow-hidden"
+                class="card block p-6 rounded-2xl group relative overflow-hidden"
               >
                 <div class="flex items-center gap-4">
                   <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500/20 to-blue-500/20 flex items-center justify-center">
@@ -206,7 +362,7 @@
                 href="https://defillama.com/protocol/merchant-moe"
                 target="_blank"
                 rel="noopener"
-                class="protocol-card block p-6 rounded-2xl group relative overflow-hidden"
+                class="card block p-6 rounded-2xl group relative overflow-hidden"
               >
                 <div class="flex items-center gap-4">
                   <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
@@ -238,9 +394,9 @@
 
         <div class="glass rounded-3xl p-8 relative overflow-hidden group">
           <div class="absolute inset-0 bg-gradient-to-br from-gray-800/20 to-gray-900/20 transition-opacity group-hover:opacity-75"></div>
-          <h2 class="text-2xl font-semibold mb-6 relative">Live Data Features</h2>
+          <h2 class="text-2xl font-bold mb-6 relative">Live Data Features</h2>
           <div class="space-y-4">
-            <div class="flex items-start gap-4 glass p-6 rounded-xl hover:bg-[#2A2A2A] transition-all duration-300">
+            <div class="flex items-start gap-4 card p-6 rounded-xl transition-all duration-300">
               <div class="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center flex-shrink-0">
                 <svg
                   class="w-5 h-5 text-blue-500"
@@ -262,7 +418,7 @@
               </div>
             </div>
 
-            <div class="flex items-start gap-4 glass p-6 rounded-xl hover:bg-[#2A2A2A] transition-all duration-300">
+            <div class="flex items-start gap-4 card p-6 rounded-xl transition-all duration-300">
               <div class="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center flex-shrink-0">
                 <svg
                   class="w-5 h-5 text-purple-500"
@@ -284,7 +440,7 @@
               </div>
             </div>
 
-            <div class="flex items-start gap-4 glass p-6 rounded-xl hover:bg-[#2A2A2A] transition-all duration-300">
+            <div class="flex items-start gap-4 card p-6 rounded-xl transition-all duration-300">
               <div class="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center flex-shrink-0">
                 <svg
                   class="w-5 h-5 text-green-500"
@@ -309,27 +465,126 @@
         </div>
       </div>
 
-      <div class="glass rounded-3xl p-8 relative overflow-hidden group">
+      <!-- Integration section -->
+      <div class="glass rounded-3xl p-8 relative overflow-hidden group mb-16">
         <div class="absolute inset-0 bg-gradient-to-br from-gray-800/20 to-gray-900/20 transition-opacity group-hover:opacity-75"></div>
         <div class="flex items-center justify-between mb-6 relative">
+          <div class="flex items-center gap-2">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
+              <i class="fas fa-code text-blue-400"></i>
+            </div>
+            <h2 class="text-2xl font-bold">Integration</h2>
+          </div>
           <div class="flex items-center gap-3">
             <div class="w-3 h-3 rounded-full bg-[#FF5F57]"></div>
             <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
             <div class="w-3 h-3 rounded-full bg-[#28C840]"></div>
           </div>
-          <div class="text-sm text-gray-500 font-mono">mcp-config.json</div>
         </div>
         <pre class="code-block text-sm rounded-2xl p-6 overflow-x-auto font-mono relative">
 <code class="text-gray-300">{
   "mcpServers": {
     "onchain-context": {
       "type": "remote",
-      "url": "https://mantle-chain-mcp.vercel.app/sse",
+      "url": "https://mantle-mcp.vercel.app/sse",
       "supportsStreaming": true
     }
   }
 }</code></pre>
       </div>
+
+      <!-- Available tools -->
+      <div class="glass rounded-3xl p-8 relative overflow-hidden group">
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 transition-opacity group-hover:opacity-75"></div>
+        <h2 class="text-2xl font-bold mb-6 relative">Available Tools</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="card p-6 rounded-xl">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center">
+                <i class="fas fa-coins text-blue-400"></i>
+              </div>
+              <h3 class="font-semibold">Token Price Tool</h3>
+            </div>
+            <pre class="code-block text-xs rounded-lg p-4 overflow-x-auto">
+<code class="text-gray-300">{
+  name: 'get-token-price',
+  description: 'Get the price of a token in mantle network',
+  parameters: {
+    contract_address: 'string'
+  }
+}</code></pre>
+          </div>
+          
+          <div class="card p-6 rounded-xl">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center">
+                <i class="fas fa-chart-line text-purple-400"></i>
+              </div>
+              <h3 class="font-semibold">TVL Tools</h3>
+            </div>
+            <pre class="code-block text-xs rounded-lg p-4 overflow-x-auto">
+<code class="text-gray-300">{
+  name: 'get-ltv',
+  description: 'Get the total value locked of mantle network'
+}
+
+{
+  name: 'get-USDT-tvl',
+  description: 'Get the total value locked of USDT on Mantle'
+}</code></pre>
+          </div>
+
+          <div class="card p-6 rounded-xl">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500/20 to-blue-500/20 flex items-center justify-center">
+                <i class="fas fa-project-diagram text-green-400"></i>
+              </div>
+              <h3 class="font-semibold">Protocol Analytics</h3>
+            </div>
+            <pre class="code-block text-xs rounded-lg p-4 overflow-x-auto">
+<code class="text-gray-300">{
+  name: 'get-protocol-merchant-moe-summary',
+  description: 'Get key metrics for the Merchant Moe protocol on Mantle'
+}</code></pre>
+          </div>
+          
+          <div class="card p-6 rounded-xl">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500/20 to-orange-500/20 flex items-center justify-center">
+                <i class="fas fa-building text-pink-400"></i>
+              </div>
+              <h3 class="font-semibold">Treehouse Protocol</h3>
+            </div>
+            <pre class="code-block text-xs rounded-lg p-4 overflow-x-auto">
+<code class="text-gray-300">{
+  name: 'get-protocol-treehouse-protocol-summary',
+  description: 'Get key metrics for a Tree House on Mantle'
+}</code></pre>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800 mt-20">
+      <div class="container mx-auto px-4 py-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-6 md:mb-0">
+            <p class="text-gray-400">© 2023 Mantle Network MPC. All rights reserved.</p>
+          </div>
+          <div class="flex items-center gap-6">
+            <a href="https://github.com/OkeyAmy/mantle-mcp.git" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fab fa-github text-xl"></i>
+            </a>
+            <a href="https://www.mantle.xyz/" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fas fa-globe text-xl"></i>
+            </a>
+            <a href="https://defillama.com/chain/Mantle" target="_blank" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fas fa-chart-pie text-xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
