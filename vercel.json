@@ -1,0 +1,9 @@
+{
+  "rewrites": [{ "source": "/(.+)", "destination": "/api/server" }],
+  "functions": {
+    "api/**/*": {
+      "maxDuration": 60
+    }
+  },
+  "devCommand": "npx ts-node --transpile-only api/server.ts"
+}

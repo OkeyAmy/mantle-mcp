@@ -1,0 +1,123 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+
+# Build outputs
+dist/
+build/
+out/
+.next/
+.nuxt/
+.output/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+.project
+.classpath
+.settings/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Testing
+coverage/
+.nyc_output/
+junit.xml
+
+# Cache directories
+.cache/
+.temp/
+.eslintcache
+.stylelintcache
+.parcel-cache/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# System Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Debug
+.debug/
+debug.log
+debug/
+
+# Vercel
+.vercel/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# dotenv environment variable files
+.env*.local
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# yarn v2
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# TypeScript incremental compilation cache
+*.tsbuildinfo
+
+# Local Netlify folder
+.netlify
+
+# Serverless directories
+.serverless/
+
+# AWS CDK asset staging directory
+.cdk.staging
+cdk.out/
+
+# Browser extension related
+*.pem
+*.crx
+
+# Content management system data
+.contentlayer
+
+.cursorrules
